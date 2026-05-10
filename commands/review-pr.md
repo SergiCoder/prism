@@ -40,85 +40,11 @@ If the diff is empty, stop:
 
 ### Step 3 — Detect stack
 
-Read the following files if they exist to detect languages and frameworks in use:
-- `package.json` — for JS/TS framework detection
-- `pyproject.toml` or `requirements.txt` — for Python framework detection
-- `go.mod` — for Go module and framework detection
-- `pom.xml` or `build.gradle` — for Java/Spring Boot detection
-- `composer.json` — for PHP/Laravel detection
-- `*.csproj` — for C#/ASP.NET Core detection
-- `Gemfile` — for Ruby/Rails detection
-
-**Language detection** (from changed file extensions):
-
-| Changed files include | Languages detected |
-|---|---|
-| `*.py` | python |
-| `*.ts`, `*.tsx`, `*.js`, `*.jsx`, `*.vue`, `*.svelte` | typescript |
-| `*.go` | go |
-| `*.java` | java |
-| `*.php` | php |
-| `*.cs` | csharp |
-| `*.rb` | ruby |
-
-**Framework detection** (from config files):
-
-| Signal | Framework skill |
-|---|---|
-| `package.json` deps contain `"next"` | stack-nextjs |
-| `package.json` deps contain `"nuxt"` | stack-nuxt |
-| `package.json` deps contain `"@sveltejs/kit"` | stack-sveltekit |
-| `package.json` deps contain `"react"` but NOT next/nuxt/sveltekit | stack-react |
-| `package.json` deps contain `"vue"` but NOT nuxt | stack-vue |
-| `package.json` deps contain `"express"` | stack-express |
-| `pyproject.toml` or `requirements.txt` contains `django` | stack-django |
-| `pyproject.toml` or `requirements.txt` contains `flask` | stack-flask |
-| `pyproject.toml` or `requirements.txt` contains `fastapi` | stack-fastapi |
-| `go.mod` contains `chi`, `gin`, `echo`, or changed files import `net/http` | stack-go-http |
-| `pom.xml` or `build.gradle` contains `spring-boot` | stack-spring |
-| `composer.json` contains `laravel/framework` | stack-laravel |
-| Any `*.csproj` file exists in the repo | stack-aspnet |
-| `Gemfile` contains `rails` | stack-rails |
-
-Build the list of stack skills to run: one per detected language + one per detected framework. A framework skill covers framework-specific rules but does NOT replace the base language skill (e.g., `stack-django` + `stack-python` both run).
+Follow **Step A** in `commands/_detect-stack.md` to identify the languages and frameworks in use from the diff. Carry forward the resulting list of detected languages, frameworks, and stack skills.
 
 ### Step 4 — Select profiles
 
-**If profiles were specified in `$ARGUMENTS`:** run only those (skip auto-detection).
-
-**If no profiles specified**, select profiles based on changed files and detected stack:
-
-| Condition | Profiles to run |
-|---|---|
-| Any source code changed | quality + security + performance + testing + all detected stack skills |
-| Any backend framework detected (django, flask, fastapi, express, spring, laravel, rails, aspnet, go-http) | rest-api |
-| Any `*.py` | stack-python + any detected Python framework skill |
-| Any `*.ts`, `*.tsx`, `*.js`, `*.jsx` | stack-typescript + any detected JS framework skill |
-| Any `*.go` | stack-go + stack-go-http (if detected) |
-| Any `*.java` | stack-spring (if detected) |
-| Any `*.php` | stack-laravel (if detected) |
-| Any `*.cs` | stack-aspnet |
-| Any `*.rb` | stack-rails (if detected) |
-| Any `*.vue` | stack-vue + stack-typescript |
-| Any `*.svelte` | stack-typescript |
-| `Dockerfile*`, `docker-compose*`, `infra/**`, `.github/workflows/**` | security only |
-| `.env*` (committed only) | security only |
-| `package.json`, `pyproject.toml`, `requirements*.txt`, `go.mod`, `Gemfile`, `composer.json`, `*.csproj`, `pom.xml`, `build.gradle`, `build.gradle.kts` changed | dependencies |
-
-Deduplicate. Always include `quality` if any source code changed. Always include `documentation` if any source code changed.
-
-#### Profile ownership boundaries
-
-Each profile ONLY reports findings within its domain. If a finding could belong to multiple profiles, it belongs to the FIRST matching profile in this list:
-
-1. **quality**: DRY violations, dead code, complexity, stdlib reinvention, over-abstraction, size thresholds
-2. **stack-***: Language idioms, type safety, error handling conventions, framework-specific patterns
-3. **rest-api**: HTTP status codes, Location headers, error envelopes, resource representation, URL design, method semantics
-4. **security**: Authentication, authorization, injection, secrets, headers, rate limiting
-5. **performance**: Query patterns, caching, async correctness, indexes, frontend rendering
-6. **documentation**: Doc accuracy, staleness, completeness
-7. **testing**: Test coverage gaps
-8. **dependencies**: Outdated packages, frameworks, and runtimes
+Follow **Step B** in `commands/_detect-stack.md` to determine which profiles to run. Honor `$ARGUMENTS` if provided. The profile ownership boundaries defined there govern the agent's `## Ownership Boundary` reference in Step 6.
 
 ### Step 5 — Fetch existing review comments
 
