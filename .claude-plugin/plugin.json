@@ -1,7 +1,7 @@
 {
   "name": "prism",
   "description": "A Claude Code plugin that adds multi-profile code review, conventional commits, branching, and PR workflows to any repo. It auto-detects your stack and runs security, quality, performance, documentation, and testing reviewers in parallel. Works both locally via slash commands and as an automated CI reviewer on pull requests.",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "author": {
     "name": "SergiCoder",
     "url": "https://github.com/SergiCoder"

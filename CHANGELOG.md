@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - 2026-05-10
+
+### Added
+- `stack-fastify` skill — reviews Fastify/Node.js code for plugin encapsulation, schema-driven validation/serialization, lifecycle hooks, reply semantics (no double-send, no `await reply.send`), `setErrorHandler`, `@fastify/*` security plugins (helmet, cors, rate-limit, bodyLimit), pino logging with redaction, and `fastify.inject()` testing patterns. Auto-triggered when `package.json` deps contain `"fastify"`.
+- Shared `commands/_detect-stack.md` defines stack detection (config files, language table, framework table) and profile selection (routing table, ownership boundaries) once, referenced from `review-and-fix`, `review-pr`, and `review-and-report-only`. Adding a new framework now requires a single-file edit instead of three.
+
+### Fixed
+- `fastify` is now in the backend-framework trigger list for the `rest-api` profile across all three review commands — previously missed when the framework was added.
+
 ## [1.12.0] - 2026-05-01
 
 ### Changed

@@ -102,6 +102,7 @@ All review commands auto-detect the stack from config files and run only the rel
 | `stack-nuxt` | Composables, SSR correctness |
 | `stack-sveltekit` | Svelte 5 runes, data loading, form actions |
 | `stack-express` | Middleware, async error handling, input validation |
+| `stack-fastify` | Plugin encapsulation, schema validation, hooks, reply semantics |
 | `stack-spring` | Layers, DI, JPA, error handling, configuration |
 | `stack-laravel` | Eloquent, controllers, validation, migrations |
 | `stack-aspnet` | Controllers, DI lifetimes, EF Core, configuration |
@@ -156,6 +157,7 @@ prism/
     ├── stack-nuxt/SKILL.md
     ├── stack-sveltekit/SKILL.md
     ├── stack-express/SKILL.md
+    ├── stack-fastify/SKILL.md
     ├── stack-spring/SKILL.md
     ├── stack-laravel/SKILL.md
     ├── stack-aspnet/SKILL.md
