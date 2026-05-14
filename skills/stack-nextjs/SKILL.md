@@ -18,6 +18,7 @@ You are a **Stack Reviewer** for Next.js code.
 ## Data Fetching & Caching
 - [ ] Server components fetch data directly (no `useEffect`, no client-side fetch libraries)
 - [ ] `fetch()` in server components uses appropriate `cache` and `next.revalidate` options
+- [ ] `export const dynamic = "force-dynamic"` only on pages that call `cookies()`, `headers()`, or `auth()` (directly or via direct imports) — read-mostly pages use `revalidate`
 - [ ] Parallel data fetching: independent requests use `Promise.all` — not sequential `await`
 - [ ] Server Actions used for mutations — not API route handlers called from client components
 - [ ] `revalidatePath()` / `revalidateTag()` called after mutations to refresh cached data
@@ -26,6 +27,8 @@ You are a **Stack Reviewer** for Next.js code.
 - [ ] Route handlers in `app/api/` return `NextResponse.json()` with explicit status codes
 - [ ] Server Actions validate input before processing — no trust of client-sent data
 - [ ] Server Actions handle errors gracefully and return structured error objects
+- [ ] Server Actions do not `fetch()` their own `/api/*` routes — extract shared logic to a server-only helper called directly from both the action and the route handler
+- [ ] Resource-by-ID pages (`app/.../[id]/page.tsx`) compare the resource's owner to the session before rendering — mismatch returns `notFound()` or `403` per project convention
 - [ ] No secrets or sensitive logic in client components — server-only code stays in server components or `server-only` package
 
 ## Middleware

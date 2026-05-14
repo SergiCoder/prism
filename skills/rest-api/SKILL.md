@@ -32,6 +32,7 @@ Skip frontend files, migration files, model-only files, and test files.
 - [ ] `PATCH` / `PUT` that returns no body → `204 No Content` (never `200` with empty body)
 - [ ] `DELETE` → `204 No Content` (not `200`)
 - [ ] `200 OK` must never be returned with an empty body — use `204` instead
+- [ ] Webhook handlers map errors by retry-ability: `4xx` when retrying won't change the outcome (invalid signature, schema failure, unknown resource); `5xx` for transient failures (DB down, downstream timeout) — never a blanket `400` catch-all
 
 ### Location Header
 - [ ] `201 Created` responses SHOULD include a `Location` header pointing to the created resource or the relevant redirect URL

@@ -32,6 +32,7 @@ Trigger on any file change. Prioritize:
 ### Input Validation & Injection
 - [ ] No raw SQL string interpolation — all queries via ORM or parameterized queries
 - [ ] User-supplied URLs (redirects, callbacks, webhooks) validated against an allow-list
+- [ ] Outbound URLs never constructed from request headers (`host`, `x-forwarded-host`, `x-forwarded-proto`) — base URLs come from env vars validated at startup (SSRF)
 - [ ] File uploads validated: type, size, and filename sanitized
 - [ ] No `eval()`, `exec()`, unsafe HTML injection APIs, shell injection, or template string injection
 - [ ] All user input validated at system boundaries before use
